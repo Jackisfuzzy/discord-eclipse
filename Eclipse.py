@@ -63,10 +63,9 @@ async def rps(ctx, input):
 
     await ctx.send(embed=embed)
 
-    #await ctx.send(gameresult + " You chose `" + playerchoice + "` and I chose `" + botchoice_str + "`")
     
 
 
 
 
-client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
+client.run('')
