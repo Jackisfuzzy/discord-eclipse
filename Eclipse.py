@@ -4,7 +4,7 @@ import time
 import random
 
 client=commands.Bot(command_prefix='$')
-
+client.remove_command('help')
 
 @client.event
 async def on_ready():
@@ -59,13 +59,27 @@ async def rps(ctx, input):
     #Make an embed because embeds look nice
     embed = discord.Embed(title="Rock, Paper, Scissors Game", colour=discord.Colour.blurple())
     embed.add_field(name=gameresult, value="You chose `" + playerchoice + "` and I chose `" + botchoice_str + "`")
-    embed.set_footer(text=ctx.message.author)
+    embed.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
 
     await ctx.send(embed=embed)
 
-    
+@client.command()
+async def help(ctx, page):
+    page = str.lower(page)
+    if page == None:
+        helppage = discord.Embed(title="Help Menu")
+        helppage.add_field(name="Games", value="Various minigames")
+        helppage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
+        await ctx.send(embed=helppage)
+    elif page == "games":
+        gamespage = discord.Embed(title="Games", colour=discord.Colour.teal())
+        gamespage.add_field(name="$rps [str]", value="Play a game of rock, paper, scissors!")
+        gamespage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
+        await ctx.send(embed=gamespage)
 
 
 
 
-client.run('')
+
+
+client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
