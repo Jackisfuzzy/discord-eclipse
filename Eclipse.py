@@ -3,6 +3,7 @@ from discord.ext import commands
 import time
 import random
 import math
+from typing import Optional
 
 client=commands.Bot(command_prefix='$')
 client.remove_command('help')
@@ -51,21 +52,31 @@ async def rps(ctx, input):
     embed.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
 
     await ctx.send(embed=embed)
-        
 
 @client.command()
-async def help(ctx):
-    author = ctx.message.author    
-    #Yeah this could be done better but im at my wits end here
-    gamespage = discord.Embed(title="Games", colour=discord.Colour.teal())
-    gamespage.add_field(name="$rps [str]", value="Play a game of rock, paper, scissors!")
-    gamespage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
-    await author.send(embed=gamespage)
-
-    utilitypage = discord.Embed(title="Utility", colour=discord.Colour.blurple())
-    utilitypage.add_field(name="$ping", value="Gives the latency between you and the bot command in miliseconds.")
-    utilitypage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
-    await author.send(embed=utilitypage)
+async def help(ctx, Optional:str=None):
+    if Optional == None:
+        helpmenu = discord.Embed(title="Help Menu", colour=discord.Colour.red(), inline=False)
+        helpmenu.add_field(name="Games", value="Various games you can play with Eclipse", inline=False)
+        helpmenu.add_field(name="Utility", value="Tweak and change the bot", inline=False)
+        helpmenu.add_field(name="Moderation", value="Commands that will help moderators keep the peace", inline=False)
+        helpmenu.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
+        await ctx.send(embed=helpmenu)
+    elif Optional == str.lower("games"):
+        gamespage = discord.Embed(title="Games", colour=discord.Colour.teal(), inline=False)
+        gamespage.add_field(name="$rps [str]", value="Play a game of rock, paper, scissors!", inline=False)
+        gamespage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url, inline=False)
+        await ctx.send(embed=gamespage)
+    elif Optional == str.lower("utility"):
+        utilitypage = discord.Embed(title="Utility", colour=discord.Colour.blurple(), inline=False)
+        utilitypage.add_field(name="$ping", value="Gives the latency between you and the bot command in miliseconds.", inline=False)
+        utilitypage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
+        await ctx.send(embed=utilitypage)
+    elif Optional == str.lower("moderation"):
+        moderationpage = discord.Embed(title="Moderation", colour=discord.Colour.blue(), inline=False)
+        moderationpage.add_field(name="$purge [int]", value="Deletes [int] amount of messages", inline=False)
+        moderationpage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
+        await ctx.send(embed=moderationpage)
     
 @client.command()
 async def purge(ctx, *, number:int = None):
@@ -91,5 +102,5 @@ async def amigay(ctx):
 
 
 
-client.run('i dont fucking think so')
+client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
 
