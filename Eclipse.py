@@ -62,16 +62,20 @@ async def help(ctx, Optional:str=None):
         helpmenu.add_field(name="Moderation", value="Commands that will help moderators keep the peace", inline=False)
         helpmenu.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
         await ctx.send(embed=helpmenu)
+    
     elif Optional == str.lower("games"):
         gamespage = discord.Embed(title="Games", colour=discord.Colour.teal(), inline=False)
         gamespage.add_field(name="$rps [str]", value="Play a game of rock, paper, scissors!", inline=False)
         gamespage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url, inline=False)
         await ctx.send(embed=gamespage)
+    
     elif Optional == str.lower("utility"):
         utilitypage = discord.Embed(title="Utility", colour=discord.Colour.blurple(), inline=False)
         utilitypage.add_field(name="$ping", value="Gives the latency between you and the bot command in miliseconds.", inline=False)
+        utilitypage.add_field(name="$createrole [name] [r] [g] [b]", value="Creates a role based on the user's input, all fields seperated by spaces", inline=False)
         utilitypage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
         await ctx.send(embed=utilitypage)
+    
     elif Optional == str.lower("moderation"):
         moderationpage = discord.Embed(title="Moderation", colour=discord.Colour.blue(), inline=False)
         moderationpage.add_field(name="$purge [int]", value="Deletes [int] amount of messages", inline=False)
@@ -91,6 +95,13 @@ async def purge(ctx, *, number:int = None):
             await ctx.send("I can't purge messages here.")
     else:
         await ctx.send('You do not have permissions to use this command.')
+        
+@client.command()
+async def createrole(ctx, name, r, g, b):
+    guild = ctx.guild
+    colour= discord.Color.from_rgb(int(r), int(g), int(b))
+    await guild.create_role(name=name, color=colour)
+    await ctx.send(f"The role `{name}` has been created")
 
 #Inside joke with friends.
 @client.command()
@@ -102,5 +113,5 @@ async def amigay(ctx):
 
 
 
-client.run('nah')
+client.run('')
 
