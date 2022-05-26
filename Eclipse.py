@@ -23,7 +23,7 @@ async def ping(ctx):
     await ctx.send('Client latency is {0}'.format(round(client.latency, 1)) + ' ms')
 
 @client.command()
-async def rps(ctx, input):
+async def rps(ctx, input: str):
 
     playerchoice = str.lower(input)
     
@@ -40,12 +40,10 @@ async def rps(ctx, input):
         gameresult = "I win!"
     elif botchoice == "scissors" and playerchoice == "paper":
         gameresult = "I win!"
-    elif playerchoice != "rock" or "paper" or "scissors":
-        await ctx.send("That is an invalid choice!")
-        return
     else:
         gameresult = "You win!"
-    
+
+        
     #Make an embed because embeds look nice
     embed = discord.Embed(title="Rock, Paper, Scissors Game", colour=discord.Colour.blurple())
     embed.add_field(name=gameresult, value="You chose `" + playerchoice + "` and I chose `" + botchoice + "`")
@@ -113,5 +111,5 @@ async def amigay(ctx):
 
 
 
-client.run('')
+client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
 
