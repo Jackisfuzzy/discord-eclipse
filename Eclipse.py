@@ -5,8 +5,7 @@ import random
 import math
 from typing import Optional
 
-client=commands.Bot(command_prefix='$')
-client.remove_command('help')
+client=commands.Bot(command_prefix='$', help_command = None)
 
 @client.event
 async def on_ready():
@@ -34,12 +33,20 @@ async def rps(ctx, input: str):
     #Kill me
     if botchoice == playerchoice:
         gameresult = "It's a tie!"
+    
     elif botchoice == "rock" and playerchoice == "scissors":
         gameresult = "I win!"
+    
     elif botchoice == "paper" and playerchoice == "rock":
         gameresult = "I win!"
+    
     elif botchoice == "scissors" and playerchoice == "paper":
         gameresult = "I win!"
+    
+    elif playerchoice not in choices:
+        await ctx.send("Invalid Choice")
+        return
+    
     else:
         gameresult = "You win!"
 
@@ -111,5 +118,5 @@ async def amigay(ctx):
 
 
 
-client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
+client.run('')
 
