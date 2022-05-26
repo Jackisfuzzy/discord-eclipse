@@ -13,11 +13,6 @@ async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=game, afk=False)
     print('Eclipse is ready!')  
 
-@client.event
-async def on_message(message):
-    if message.content.startswith(str.lower("phil")) or message.content.startswith(str.lower("phill")):
-        await message.channel.send("Is it?")
-
 @client.command()
 async def test(ctx):
     await ctx.send('Test Complete')
@@ -30,41 +25,49 @@ async def ping(ctx):
 async def rps(ctx, input):
 
     playerchoice = str.lower(input)
-    botchoice = random.randint(0,2)
-        
-    #Because switch statements arent working
-    if botchoice == 0:
-        botchoice_str = "rock"
-    elif botchoice == 1:
-        botchoice_str = "paper"
-    elif botchoice == 2:
-        botchoice_str = "scissors"
-
+    
+    choices = ["rock", "paper", "scissors"]
+    
+    botchoice = random.choice(choices)
+   
     #Kill me
-    if botchoice_str == playerchoice:
+    if botchoice == playerchoice:
         gameresult = "It's a tie!"
-    elif botchoice_str == "rock" and playerchoice == "paper":
-        gameresult = "You win!"
-    elif botchoice_str == "rock" and playerchoice == "scissors":
+    elif botchoice == "rock" and playerchoice == "scissors":
         gameresult = "I win!"
-    elif botchoice_str == "paper" and playerchoice == "rock":
+    elif botchoice == "paper" and playerchoice == "rock":
         gameresult = "I win!"
-    elif botchoice_str == "paper" and playerchoice == "scissors":
-        gameresult = "You win!"
-    elif botchoice_str == "scissors" and playerchoice == "rock":
-        gameresult = "You win!"
-    elif botchoice_str == "scissors" and playerchoice == "paper":
-        gameresult = "I win!"
+    elif botchoice == "scissors" and playerchoice == "paper":
+        gameresult == "I win!"
     elif playerchoice != "rock" or "paper" or "scissors":
         await ctx.send("That is an invalid choice!")
         return
-        
+    else:
+        gameresult = "You win!"
+    
     #Make an embed because embeds look nice
     embed = discord.Embed(title="Rock, Paper, Scissors Game", colour=discord.Colour.blurple())
-    embed.add_field(name=gameresult, value="You chose `" + playerchoice + "` and I chose `" + botchoice_str + "`")
+    embed.add_field(name=gameresult, value="You chose `" + playerchoice + "` and I chose `" + botchoice + "`")
     embed.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
 
     await ctx.send(embed=embed)
+    
+    
+    
+    
+    #elif botchoice_str == "rock" and playerchoice == "paper":
+    #    gameresult = "You win!"
+    #elif botchoice_str == "rock" and playerchoice == "scissors":
+    #    gameresult = "I win!"
+    #elif botchoice_str == "paper" and playerchoice == "rock":
+    #    gameresult = "I win!"
+    #elif botchoice_str == "paper" and playerchoice == "scissors":
+    #    gameresult = "You win!"
+    #elif botchoice_str == "scissors" and playerchoice == "rock":
+    #    gameresult = "You win!"
+    #elif botchoice_str == "scissors" and playerchoice == "paper":
+    #    gameresult = "I win!"
+        
 
 @client.command()
 async def help(ctx):
@@ -104,5 +107,5 @@ async def amigay(ctx):
 
 
 
-client.run('')
+client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
 
