@@ -44,7 +44,7 @@ async def rps(ctx, input: str):
         gameresult = "I win!"
     
     elif playerchoice not in choices:
-        await ctx.send("Invalid Choice")
+        await ctx.send("Invalid Choice :x:")
         return
     
     else:
@@ -94,8 +94,8 @@ async def purge(ctx, *, number:int = None):
             if number is None:
                 await ctx.send('You must input a number')
             else:
-                deleted = await ctx.message.channel.purge(limit = number)
-                await ctx.send(f'Messages purged by {ctx.message.author.mention}: `{len(deleted)}`')
+                deleted = await ctx.message.channel.purge(limit = number + 1)
+                await ctx.send(f'Messages purged by {ctx.message.author.mention}: `{len(deleted) - 1}`')
         except:
             await ctx.send("I can't purge messages here.")
     else:
@@ -118,5 +118,5 @@ async def amigay(ctx):
 
 
 
-client.run('')
+client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
 
