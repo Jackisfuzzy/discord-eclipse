@@ -38,7 +38,7 @@ async def rps(ctx, input):
     elif botchoice == "paper" and playerchoice == "rock":
         gameresult = "I win!"
     elif botchoice == "scissors" and playerchoice == "paper":
-        gameresult == "I win!"
+        gameresult = "I win!"
     elif playerchoice != "rock" or "paper" or "scissors":
         await ctx.send("That is an invalid choice!")
         return
@@ -51,22 +51,6 @@ async def rps(ctx, input):
     embed.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
 
     await ctx.send(embed=embed)
-    
-    
-    
-    
-    #elif botchoice_str == "rock" and playerchoice == "paper":
-    #    gameresult = "You win!"
-    #elif botchoice_str == "rock" and playerchoice == "scissors":
-    #    gameresult = "I win!"
-    #elif botchoice_str == "paper" and playerchoice == "rock":
-    #    gameresult = "I win!"
-    #elif botchoice_str == "paper" and playerchoice == "scissors":
-    #    gameresult = "You win!"
-    #elif botchoice_str == "scissors" and playerchoice == "rock":
-    #    gameresult = "You win!"
-    #elif botchoice_str == "scissors" and playerchoice == "paper":
-    #    gameresult = "I win!"
         
 
 @client.command()
@@ -107,5 +91,5 @@ async def amigay(ctx):
 
 
 
-client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
+client.run('i dont fucking think so')
 
