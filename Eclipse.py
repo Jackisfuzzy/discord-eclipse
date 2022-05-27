@@ -4,6 +4,7 @@ import time
 import random
 import math
 from typing import Optional
+from time import sleep
 
 client=commands.Bot(command_prefix='$', help_command = None)
 
@@ -71,7 +72,8 @@ async def help(ctx, Optional:str=None):
     elif Optional == str.lower("games"):
         gamespage = discord.Embed(title="Games", colour=discord.Colour.teal(), inline=False)
         gamespage.add_field(name="$rps [str]", value="Play a game of rock, paper, scissors!", inline=False)
-        gamespage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url, inline=False)
+        gamespage.add_field(name="$rtd [int]", value="Rolls a random dice between 0 and [int]!", inline=False)
+        gamespage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
         await ctx.send(embed=gamespage)
     
     elif Optional == str.lower("utility"):
@@ -96,6 +98,8 @@ async def purge(ctx, *, number:int = None):
             else:
                 deleted = await ctx.message.channel.purge(limit = number + 1)
                 await ctx.send(f'Messages purged by {ctx.message.author.mention}: `{len(deleted) - 1}`')
+                sleep(2)
+                await ctx.message.channel.purge(limit=1)
         except:
             await ctx.send("I can't purge messages here.")
     else:
@@ -116,7 +120,25 @@ async def amigay(ctx):
     userid_calc = round(userid_calc, 1)
     await ctx.send(f'{ctx.author.mention} you are ' + str(userid_calc) + ' percent gay.')
 
+@client.command()
+async def rtd(ctx, amount: int):
+    roll_amt = random.randint(0, amount)
+    msg1em = discord.Embed(title="Rolling the dice..", color=discord.Colour.green())
+    msg1em.set_image(url="https://cdn.discordapp.com/attachments/485068054795911169/979603428303048734/diceroll1.gif")
+    embed1 = await ctx.send(embed=msg1em)
+    sleep(3)
+    msg2em = discord.Embed(title="You rolled a...", color=discord.Colour.green())
+    msg2em.add_field(name=str(roll_amt), value="\u200b")
+    msg2em.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
+    await embed1.edit(embed=msg2em)
 
+
+#TODO find how to pass USERID through discord.User.avatar_url
+@client.command()
+async def getavatar(ctx, uid: int):
+    gavembed = discord.Embed(title='User\'s Avatar', colour=discord.Colour.dark_gold(), inline=False)
+    gavembed.set_image(uid.discord.User.avatar_url)
+    await ctx.send(embed=gavembed)
 
 client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
 
