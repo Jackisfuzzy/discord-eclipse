@@ -132,6 +132,15 @@ async def rtd(ctx, amount: int):
     msg2em.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
     await embed1.edit(embed=msg2em)
 
+@client.command()
+async def spacefact(ctx):
+    factchoice = random.randint(1, 9)
+    mylines = []
+    with open(r'C:\Users\Eric\Desktop\spacefacts.txt', 'rt') as myfile:
+        for myline in myfile:
+            mylines.append(myline)
+    await ctx.send(mylines[factchoice])
+
 
 #TODO find how to pass USERID through discord.User.avatar_url
 @client.command()
@@ -140,5 +149,5 @@ async def getavatar(ctx, uid: int):
     gavembed.set_image(uid.discord.User.avatar_url)
     await ctx.send(embed=gavembed)
 
-client.run('')
+client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
 
