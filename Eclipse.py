@@ -149,5 +149,5 @@ async def getavatar(ctx, uid: int):
     gavembed.set_image(uid.discord.User.avatar_url)
     await ctx.send(embed=gavembed)
 
-client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
+client.run('')
 
