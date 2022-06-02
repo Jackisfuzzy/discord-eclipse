@@ -14,9 +14,52 @@ async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=game, afk=False)
     print('Eclipse is ready!')  
 
+@client.event
+async def on_message(message):
+    #ben found this funny?
+    if "peter" in message.content.lower():
+        await message.channel.send("https://cdn.discordapp.com/attachments/965019294821928980/981762908344176660/images_6.jpeg")
+    
+    elif "phil" in message.content.lower():
+        await message.channel.send("Is it?")
+        sleep(3)
+        await message.channel.send(is_it())
+    
+    else:
+        await client.process_commands(message)
+
+def is_it():
+    choices = ["It was. https://cdn.discordapp.com/attachments/965019294821928980/981766174247358554/download_5.jpeg", "It wasn't. https://cdn.discordapp.com/attachments/965019294821928980/981766174536790106/images_7.jpeg", "Maybe? https://cdn.discordapp.com/attachments/965019294821928980/981766175111389224/download_4.jpeg"]
+    choice = random.choice(choices)
+    return choice
+
 @client.command()
 async def test(ctx):
     await ctx.send('Test Complete')
+
+@client.command(name="8ball")
+async def _8ball(ctx):
+    pos_choices=["It is certian", "It is decidedly so", "Without a doubt", "Yes - definitely", "You may rely on it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes"]
+    neu_choices=["Reply hazy, try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again"]
+    neg_choices=["Don't count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"]
+
+    
+    choice = random.randint(0,1)
+    if choice == 0:
+        reply_choice = random.choice(pos_choices)
+    elif choice == 1:
+        reply_choice = random.choice(neg_choices)
+    else:
+        reply_choice = random.choice(neu_choices)
+    
+    embed = discord.Embed(title="Magic 8 ball", color=discord.Colour.blurple())
+    embed.add_field(name="Reading your future...", value=':8ball:')
+    embed.set_image(url="https://cdn.discordapp.com/attachments/430729014924148746/981776201481879673/PngItem_2581937.png")
+    embed1 = await ctx.send(embed=embed)
+    sleep(4)
+    embed2 = discord.Embed(title=reply_choice, colour=discord.Colour.greyple())
+    await embed1.edit(embed=embed2)
+
 
 @client.command()
 async def ping(ctx):
@@ -73,6 +116,7 @@ async def help(ctx, Optional:str=None):
         gamespage = discord.Embed(title="Games", colour=discord.Colour.teal(), inline=False)
         gamespage.add_field(name="$rps [str]", value="Play a game of rock, paper, scissors!", inline=False)
         gamespage.add_field(name="$rtd [int]", value="Rolls a random dice between 0 and [int]!", inline=False)
+        gamespage.add_field(name="$spacefact", value="Sends a random spacefact!", inline=False)
         gamespage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
         await ctx.send(embed=gamespage)
     
@@ -149,5 +193,5 @@ async def getavatar(ctx, uid: int):
     gavembed.set_image(uid.discord.User.avatar_url)
     await ctx.send(embed=gavembed)
 
-client.run('')
+client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
 
