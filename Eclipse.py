@@ -42,31 +42,34 @@ def is_it():
 async def help(ctx, Optional:str=None):
     if Optional == None:
         helpmenu = discord.Embed(title="Help Menu", colour=discord.Colour.red(), inline=False)
-        helpmenu.add_field(name="Games", value="Various games you can play with Eclipse", inline=False)
-        helpmenu.add_field(name="Utility", value="Tweak and change the bot", inline=False)
-        helpmenu.add_field(name="Moderation", value="Commands that will help moderators keep the peace", inline=False)
+        helpmenu.add_field(name="Games :game_die:", value="Various games you can play with Eclipse", inline=False)
+        helpmenu.add_field(name="Utility :wrench:", value="Tweak and change the bot", inline=False)
+        helpmenu.add_field(name="Moderation :crossed_swords:", value="Commands that will help moderators keep the peace", inline=False)
         helpmenu.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
         await ctx.reply(embed=helpmenu, mention_author=False)
     
     elif Optional == str.lower("games"):
-        gamespage = discord.Embed(title="Games", colour=discord.Colour.teal(), inline=False)
+        gamespage = discord.Embed(title="Games :game_die:", colour=discord.Colour.teal(), inline=False)
         gamespage.add_field(name="$rps [str]", value="Play a game of rock, paper, scissors!", inline=False)
         gamespage.add_field(name="$rtd [int]", value="Rolls a random dice between 0 and [int]!", inline=False)
         gamespage.add_field(name="$spacefact", value="Sends a random spacefact!", inline=False)
         gamespage.add_field(name="$8ball", value="Use the magical 8b ball to tell you your future!", inline=False)
+        gamespage.add_field(name="$ship [user] [user]", value="I'll ship two userss together and give a percentage on how well they will go together.")
         gamespage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
         await ctx.reply(embed=gamespage, mention_author=False)
     
     elif Optional == str.lower("utility"):
-        utilitypage = discord.Embed(title="Utility", colour=discord.Colour.blurple(), inline=False)
+        utilitypage = discord.Embed(title="Utility :wrench:", colour=discord.Colour.blurple(), inline=False)
         utilitypage.add_field(name="$ping", value="Gives the latency between you and the bot command in miliseconds.", inline=False)
         utilitypage.add_field(name="$createrole [name] [r] [g] [b]", value="Creates a role based on the user's input, all fields seperated by spaces", inline=False)
         utilitypage.add_field(name="$getavatar [user]", value="Retrieves a user's avatar.", inline=False)
+        utilitypage.add_field(name="$giverole [user] [roleID]", value="Gives a user a role!", inline=False)
+        utilitypage.add_field(name="$removerole [user] [roleID]", value="Take a role away from a user!", inline=False)
         utilitypage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
         await ctx.reply(embed=utilitypage, mention_author=False)
     
     elif Optional == str.lower("moderation"):
-        moderationpage = discord.Embed(title="Moderation", colour=discord.Colour.blue(), inline=False)
+        moderationpage = discord.Embed(title="Moderation :crossed_swords:", colour=discord.Colour.blue(), inline=False)
         moderationpage.add_field(name="$purge [int]", value="Deletes [int] amount of messages", inline=False)
         moderationpage.add_field(name="$ban [user] [reason]", value="Ban a user", inline=False)
         moderationpage.add_field(name="$kick [user] [reason]", value="Kick a user", inline=False)
@@ -120,6 +123,18 @@ async def createrole(ctx, name, r, g, b):
     colour= discord.Color.from_rgb(int(r), int(g), int(b))
     await guild.create_role(name=name, color=colour)
     await ctx.reply(f"The role `{name}` has been created", mention_author=False)
+    
+@client.command()
+async def giverole(ctx, user: discord.Member, role: int):
+    _role = discord.utils.get(client.get_guild(ctx.guild.id).roles, id=role)
+    await user.add_roles(_role)
+    await ctx.reply(f"Gave {user} the role `{_role}`!", mention_author=False)
+
+@client.command()
+async def removerole(ctx, user: discord.Member, role:int):
+    _role = discord.utils.get(client.get_guild(ctx.guild.id).roles, id=role)
+    await user.remove_roles(_role)
+    await ctx.reply(f"Removed the role `{_role}` from {user}!", mention_author=False)
 
 @client.command()
 async def ping(ctx):
@@ -189,7 +204,7 @@ async def rps(ctx, input: str):
         
     #Make an embed because embeds look nice
     embed = discord.Embed(title="Rock, Paper, Scissors Game", colour=discord.Colour.blurple())
-    embed.add_field(name=gameresult, value="You chose `" + playerchoice + "` and I chose `" + botchoice + "`")
+    embed.add_field(name=gameresult, value=f"You chose `{playerchoice}` and I chose `{botchoice}")
     embed.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
 
     await ctx.reply(embed=embed, mention_author=False)
@@ -201,6 +216,21 @@ async def amigay(ctx):
     userid_calc = math.sqrt(userid) / 50000000 + 7 * 1.2
     userid_calc = round(userid_calc, 1)
     await ctx.reply(f'{ctx.author.mention} you are ' + str(userid_calc) + ' percent gay.', mention_author=False)
+
+@client.command()
+async def ship(ctx, member1: discord.Member, member2: discord.Member):
+    num = member1.id + member2.id
+    keynum = math.sqrt(num) / 42069800
+    key = random.randint(1, int(keynum))
+    
+    
+    num = math.sqrt(num) / 141529653 * key
+    num = round(num, 2)
+    if num > 100:
+        num = 100
+    else:
+        await ctx.reply(f'I ship {member1} and {member2} with a {num}% chance', mention_author=False)
+
 
 @client.command()
 async def rtd(ctx, amount: int):
