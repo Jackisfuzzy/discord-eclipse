@@ -5,8 +5,13 @@ import random
 import math
 from typing import Optional
 from time import sleep
+import json
+import os
+import openai
 
 client=commands.Bot(command_prefix='$', help_command = None)
+os.chdir(r'C:\Users\Eric\Desktop\Discord Bots\Eclipse')
+openai.api_key = ""
 
 @client.event
 async def on_ready():
@@ -14,11 +19,28 @@ async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=game, afk=False)
     print('Eclipse is ready!')  
 
+ 
+ 
+@client.event
+async def on_member_join(member):
+    pass
+
+@client.event
+async def on_command_error(ctx,error):
+    if isinstance(error, commands.ExpectedClosingQuoteError):
+        await ctx.reply("Error: Missing quotations!")
+    elif isinstance(error, commands.MissingRequiredArgument):
+        await ctx.reply("Error: I am missing a required argument!")
+
  #Word trigger commands---------
 @client.event
 async def on_message(message):
+ 
+    if message.author == client.user:
+        return
+        
     #ben found this funny?
-    if "peter" in message.content.lower():
+    elif "peter" in message.content.lower():
         await message.channel.send("https://cdn.discordapp.com/attachments/965019294821928980/981762908344176660/images_6.jpeg")
     
     elif "phil" in message.content.lower():
@@ -42,18 +64,19 @@ def is_it():
 async def help(ctx, Optional:str=None):
     if Optional == None:
         helpmenu = discord.Embed(title="Help Menu", colour=discord.Colour.red(), inline=False)
-        helpmenu.add_field(name="Games :game_die:", value="Various games you can play with Eclipse", inline=False)
+        helpmenu.add_field(name="Fun :game_die:", value="Various games and fun commands you can use", inline=False)
         helpmenu.add_field(name="Utility :wrench:", value="Tweak and change the bot", inline=False)
         helpmenu.add_field(name="Moderation :crossed_swords:", value="Commands that will help moderators keep the peace", inline=False)
         helpmenu.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
         await ctx.reply(embed=helpmenu, mention_author=False)
     
-    elif Optional == str.lower("games"):
-        gamespage = discord.Embed(title="Games :game_die:", colour=discord.Colour.teal(), inline=False)
+    elif Optional == str.lower("fun"):
+        gamespage = discord.Embed(title="Fun :game_die:", colour=discord.Colour.teal(), inline=False)
         gamespage.add_field(name="$rps [str]", value="Play a game of rock, paper, scissors!", inline=False)
         gamespage.add_field(name="$rtd [int]", value="Rolls a random dice between 0 and [int]!", inline=False)
         gamespage.add_field(name="$spacefact", value="Sends a random spacefact!", inline=False)
         gamespage.add_field(name="$8ball", value="Use the magical 8b ball to tell you your future!", inline=False)
+        gamespage.add_field(name='$openai "text"', value="Talk to a neural network, make sure to surround your text in quotes")
         gamespage.add_field(name="$ship [user] [user]", value="I'll ship two userss together and give a percentage on how well they will go together.")
         gamespage.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
         await ctx.reply(embed=gamespage, mention_author=False)
@@ -172,6 +195,23 @@ async def _8ball(ctx):
     embed2 = discord.Embed(title=reply_choice, colour=discord.Colour.greyple())
     await embed1.edit(embed=embed2)
 
+
+@client.command(name="openai")
+async def openapi(ctx, user_prompt: str=None):
+    if user_prompt != None:
+        response = openai.Completion.create(
+            model="text-davinci-002",
+            prompt=user_prompt ,
+            temperature=0.80,
+            max_tokens=256,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+        await ctx.reply(response.choices[0].text)        
+    else:
+        await ctx.reply("Error: User prompt is empty.")
+
 @client.command()
 async def rps(ctx, input: str):
 
@@ -246,12 +286,14 @@ async def rtd(ctx, amount: int):
 
 @client.command()
 async def spacefact(ctx):
-    factchoice = random.randint(1, 9)
+    factchoice = random.randint(1, 39)
     mylines = []
-    with open(r'C:\Users\Eric\Desktop\spacefacts.txt', 'rt') as myfile:
+    with open(r'C:\Users\Eric\Desktop\spacefacts.txt', 'rt', encoding="utf8") as myfile:
         for myline in myfile:
             mylines.append(myline)
     await ctx.reply(mylines[factchoice], mention_author=False)
+
+
 
 client.run('')
 
