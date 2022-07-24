@@ -1,3 +1,4 @@
+import string
 import discord
 from discord.ext import commands
 import time
@@ -8,10 +9,11 @@ from time import sleep
 import json
 import os
 import openai
+#from dalle_pytorch import DiscreteVAE, DALLE
 
 client=commands.Bot(command_prefix='$', help_command = None)
 os.chdir(r'C:\Users\Eric\Desktop\Discord Bots\Eclipse')
-openai.api_key = ""
+openai.api_key = "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"
 
 @client.event
 async def on_ready():
@@ -139,6 +141,24 @@ async def kick(ctx, user : discord.Member, *, reason = None):
     else:
         await ctx.reply("You do not have permission to use this command.", mention_author=False)
 
+@client.command()
+async def spam(ctx, user : discord.Member, content: str, *, amount: int):    
+    #if ctx.message.author.guild_permissions.administrator or ctx.user.id == 485057961358524427:
+    if user.id != 345683515528183808: 
+        if amount < 101:
+            await ctx.reply(f"Spamming {user} with '{content}' {amount} times..")
+            for i in range(amount):
+                print(i)
+                await user.send(content)
+                sleep(0.3)
+            await ctx.reply(f"User {user} has been spammed with '{content}' {amount} times.")
+        else:
+            await ctx.reply("Please input a smaller amount. Max 100")
+    else:
+        await ctx.reply("No.")
+    #else:
+        #await ctx.reply(f"You do not have the permissions required to use this command")
+
  #Utility commands------------------------------        
 @client.command()
 async def createrole(ctx, name, r, g, b):
@@ -185,7 +205,7 @@ async def _8ball(ctx):
     elif choice > 45 and choice < 55:
         reply_choice = random.choice(neu_choices)
     else:
-        reply_choice = "Saturn fucking sucks a programming"
+        reply_choice = "Saturn fucking sucks at programming"
     
     embed = discord.Embed(title="Magic 8 ball", color=discord.Colour.blurple())
     embed.add_field(name="Reading your future...", value=':8ball:')
@@ -195,7 +215,21 @@ async def _8ball(ctx):
     embed2 = discord.Embed(title=reply_choice, colour=discord.Colour.greyple())
     await embed1.edit(embed=embed2)
 
+#TODO: Figure out how to add cooldowns to commands
+@client.command()
+async def printtime(ctx):
+    await ctx.send(f"The current time is {time.strftime('%Y/%m/%d %I:%M:%S')}")
 
+@client.command()
+async def cooldowntest(ctx):
+    current_time = time.strftime('%s')
+    if current_time >= current_time - 5:
+        ctx.send("cooldown complete")
+    else:
+        ctx.send("nope")
+
+
+#TODO: Rethink career choice 
 @client.command(name="openai")
 async def openapi(ctx, user_prompt: str=None):
     if user_prompt != None:
@@ -244,8 +278,8 @@ async def rps(ctx, input: str):
         
     #Make an embed because embeds look nice
     embed = discord.Embed(title="Rock, Paper, Scissors Game", colour=discord.Colour.blurple())
-    embed.add_field(name=gameresult, value=f"You chose `{playerchoice}` and I chose `{botchoice}")
-    embed.set_footer(text=ctx.message.author, icon_url=ctx.message.author.avatar_url)
+    embed.add_field(name=gameresult, value=f"You chose `{playerchoice}` and I chose `{botchoice}`")
+    embed.set_footer(text=f"{ctx.message.author} | {time.strftime('%m/%d/%Y %I:%M:%S')}", icon_url=ctx.message.author.avatar_url)
 
     await ctx.reply(embed=embed, mention_author=False)
 
@@ -259,17 +293,29 @@ async def amigay(ctx):
 
 @client.command()
 async def ship(ctx, member1: discord.Member, member2: discord.Member):
-    num = member1.id + member2.id
-    keynum = math.sqrt(num) / 42069800
-    key = random.randint(1, int(keynum))
-    
-    
-    num = math.sqrt(num) / 141529653 * key
+    my_int = member1.user.id + member2.user.id 
+    digit_string = str(my_int)
+    digit_map = map(int, digit_string)
+    digit_list = list(digit_map)
+    num = len(digit_list)
+       
+    num = math.sqrt(num) / 4
     num = round(num, 2)
+    print(num)
     if num > 100:
         num = 100
+        await ctx.reply(f'I ship {member1} and {member2} with a {num}% chance', mention_author=False)
     else:
         await ctx.reply(f'I ship {member1} and {member2} with a {num}% chance', mention_author=False)
+
+@client.command()
+async def intlist(ctx):
+    my_int = 987654321
+    digit_string = str(my_int)
+    digit_map = map(int, digit_string)
+    digit_list = list(digit_map)
+    await ctx.send(digit_list)
+
 
 
 @client.command()
@@ -295,5 +341,5 @@ async def spacefact(ctx):
 
 
 
-client.run('')
+client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
 
