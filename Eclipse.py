@@ -13,7 +13,7 @@ import openai
 
 client=commands.Bot(command_prefix='$', help_command = None)
 os.chdir(r'C:\Users\Eric\Desktop\Discord Bots\Eclipse')
-openai.api_key = "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"
+openai.api_key = ""
 
 @client.event
 async def on_ready():
@@ -143,7 +143,6 @@ async def kick(ctx, user : discord.Member, *, reason = None):
 
 @client.command()
 async def spam(ctx, user : discord.Member, content: str, *, amount: int):    
-    #if ctx.message.author.guild_permissions.administrator or ctx.user.id == 485057961358524427:
     if user.id != 345683515528183808: 
         if amount < 101:
             await ctx.reply(f"Spamming {user} with '{content}' {amount} times..")
@@ -156,8 +155,6 @@ async def spam(ctx, user : discord.Member, content: str, *, amount: int):
             await ctx.reply("Please input a smaller amount. Max 100")
     else:
         await ctx.reply("No.")
-    #else:
-        #await ctx.reply(f"You do not have the permissions required to use this command")
 
  #Utility commands------------------------------        
 @client.command()
@@ -341,5 +338,5 @@ async def spacefact(ctx):
 
 
 
-client.run('NDg1MDU3OTYxMzU4NTI0NDI3.GLsm9B.Dgx9iqqLCIGWupr6bSRKF0OBjOgR8A5Ecp5LbI')
+client.run('')
 
